@@ -1,7 +1,7 @@
 # STMCTF_PWN_Writeup
 
-STMCTF2018 PWN solutions. 
+STMCTF2018 PWN taks solutions. 
 
-STM'in son CTF yarışmasında sorulan PWN kategorisinde birinci ve ikinci soru çözümü
+STM'in son CTF yarışmasında sorulan PWN kategorisinde sorulan soruların çözümü. Elimden geldiğince anlatmaya ve göstermeye çalıştım. Ön eleme ve final soruları var. 
 
 Hata/Eksik/Fazla/Yanlış olduğunu düşündüğünüz şeyi lütfen bana iletin. 
