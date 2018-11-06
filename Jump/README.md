@@ -21,7 +21,7 @@ Overflow var. Birkaç işlem ile offsetin 44 olduğunu buluyoruz. 40 buf + Saved
 Bu resimden çıkarılacak şeyler: 
 
 * Öncelikle en başta counter(0x804a008) gibi bişey var o yüzden ret adresine main başını yazarsanız exite atlayıp çıkış yapacaktır çünkü 0x800 ile compare yapıyor ve sonra onu increment ediyor. Bu durum birazcık sinir bozucu. Nedenine geleceğiz.
- * 
+ 
  ```shell
  80484b1:    a1 08 a0 04 08           mov    eax,ds:0x804a008
  80484b6:    3d 00 08 00 00           cmp    eax,0x800
