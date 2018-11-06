@@ -4,7 +4,7 @@ Zaman bulamamamdan dolayı biraz geç bakabildim soruya. Bu sorunun çözümüne
 
 Hızlıca göz atalım:
 
-![first look](/1.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/1.png)
 
 Program 32-bit ve dynamic derlenmiş. Koruma olarak da NX ve FULL RELRO var. Karşı makinede ASLR’nin olduğunu da tahmin etmek zor değil. 
 
