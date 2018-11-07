@@ -1,4 +1,4 @@
-## STMCTF ezz sorusu çözümü
+## STMCTF2018 ezz sorusu çözümü
 
 Öncelikle bu yarışmada pwn kategorisi sorularının zor olduğunu kabul etmek lazım. En son baktığımda 4 adet sorudan sanırım çözüm yoktu, sonlara doğru olduysa da emin değilim. Sadece pwn kategori soruları için gelsem de zaman alacağını düşündüğümden azar azar bakıp, diğer konulara yoğunlaştım. Yarışma gününden sonra berrak bir zihinle birkaç saatte bu çözümü yaptım.
 STM ekibini bu kaliteli sorulardan dolayı tebrik etmek lazım. Keşke sadece bu kategorinin olduğu bir çeşit CTF olsaydı. 
@@ -18,7 +18,7 @@ Bu aşamada yapmamız gereken ilk şey önce pattern bulmak. Alttan üstten veya
 Programı objdump edelim:
 
 ![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Ezz/screenshots/3.png)
-...
+
 ![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Ezz/screenshots/4.png)
 
 Evet baktık. Başı var sonu yok. Güzel yanı ise kodlar .text section da bu da bize zengin bir ROP yeri sağlar. ROP uzun uzun anlatmadan kısaca birkaç şey söyleyelim. İstediğimiz kodu stack’e atıp çalıştıramıyorsak istediğimiz kodu programın veya librarylerin içinde parça parça bulup çalıştırırız. 

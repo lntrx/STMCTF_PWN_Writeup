@@ -1,4 +1,4 @@
-## STMCTF flu sorusu çözümü
+## STMCTF2018 flu sorusu çözümü
 
 Bilgisayara sahip olmamın bu son günlerinde olur da okuyan vardır, bu tür şeyleri merak edip denemek isteyen vardır diye bilgisayarın son vakitlerinde boş zaman oluşturup en son writeup yazısını da yaziyim dedim. Olur da durum farklı olursa kalan easy sorusuna da bakarım. Bir soru daha vardı ama elimizde binary yoktu sunucuya bağlanıp blind bir şekilde input giriyorduk. O soruya yapacak bişey yok.
 
