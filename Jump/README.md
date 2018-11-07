@@ -4,19 +4,19 @@ Zaman bulamamamdan dolayı biraz geç bakabildim soruya. Bu sorunun çözümüne
 
 Hızlıca göz atalım:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/1.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/1.png)
 
 Program 32-bit ve dynamic derlenmiş. Koruma olarak da NX ve FULL RELRO var. Karşı makinede ASLR’nin olduğunu da tahmin etmek zor değil. 
 
 Programa hemen göz atalım:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/2.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/2.png)
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/3.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/3.png)
 
 Overflow var. Birkaç işlem ile offsetin 44 olduğunu buluyoruz. 40 buf + Saved EBP + RET şeklinde. Bu cebimizde dursun programı dump edelim: 
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/4.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/4.png)
 
 Bu resimden çıkarılacak şeyler: 
 
@@ -68,17 +68,17 @@ int puts(const char *s);
 
 Puts fonksiyonu sadece bir char pointer alıyor. Bizim puts fonksiyonuna libc adresi barındıran bir pointer ile atlamamız lazım. Bunun da en güzel yolu GOT adresi. 
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/5.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/5.png)
 
 PLT ve GOT bilmeyenler için birkaç şey söyleyelim. Bir program falanca bilgisayarda durursa ve o bilgisayarda duran bir kütüphaneden fonksiyon çağırıyorsa önce PLT’ye atlar orda kütüphanedeki adresini barındıran bir pointer var ve pointerdaki adrese atlar. ASLR ile beraber pointerın içindeki adres sürekli değişmektedir ama pointer değişmiyor. Fotoğrafta görüldüğü gibi adresi 0x8049ff0.
 
 Biz puts fonksiyonuna 0x8049ff0 adresiyle atlarsak bu adresin içinde ki puts fonksiyonunun Libc’deki adresini ekrana bastırmış olacağız. Fake bir exit adresi vererek deneyelim:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/6.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/6.png)
 
 Görüldüğü gibi adresi basıyor ama hex şeklinde. Little endian’dan dolayı tersten yazıyor. Son karakter ‘@’ yani 0x40 olarak görülüyor. Doğrulayalım:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/7.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/7.png)
 
 Libc base adresinin son 3 karakteri hep sıfır olacağı için 00067e40 offsetini eklediğinizde son karakteri 0x40 olur. Yani doğru bastırıyor. 
 
@@ -103,7 +103,7 @@ https://github.com/niklasb/libc-database
 
 Bu tool ile beraber çok büyük bir libc database indirebilirsiniz. Puts fonksiyonuna birkaç kere atlayarak diğer fonksiyonların da GOT içinde ki adresi bastırılıp bunlar arasında ki fark ile hesaplama yapıp yukarda linki verlien program ile indirilen onlarca library’e bakıp spesific kütüphane bulunabilir. Ipucu olarak şöyle bişey var:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/8.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/8.png)
 
 Maalesef sunucu ayakta olmadığı için deneyemeyiz ve benim de çok vaktim olmadığı için bunu uygulamalı gösteremem. 
 
@@ -145,11 +145,11 @@ p.clean()
 
 Çok basit bir şekilde ilk adımı gerçekleştiriyoruz. Deneyelim:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/10.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/10.png)
 
 Değişen puts libc adresi elimizde artık. Şimdi ise bununla ile beraber diğer fonksiyonları hesaplayalım. Bize system adresi, “/bin/sh” stringi ve exit adresi lazım:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/11.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/11.png)
 
 Yukarda verdiğim linkte ki program ile bunları yapabiliyorsunuz. 
 
@@ -172,22 +172,22 @@ log.info("exit@libc: 0x%x" % exit_addr)
 ```
 Bununla beraber bize lazım olan adresleri bulmuş olacağız.
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/12.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/12.png)
 
 Herşey tamam. Şimdi sırada systeme atlamak kaldı. Bu noktada Bizim bu açığı tekrar tetiklememiz lazım, ama bir sıkıntı var: EBP. EBP adresi 0x41414141 oluyor. Tekrar yeniden ESP’yi EBP’ye aktarmak için programın başına atlayabiliriz, ama counter olduğu için exit’e atlayacak. 
 
 
 EBP framework pointer olarak geçer, yani programın çalışacağı içine değer atacağı değeri pop edeceği bir alan gibi. System’e atladığımızda bu alan valid olmalı. Valid fake bir adres verebiliriz, tam bu noktada bize engel çıkaran counterdan yararlanabiliriz. Counter’ın barındığı adres writable olduğu için o alanı kullanabiliriz. System fonksiyonunda push’lar ve pop’lar olacak. Programı başlatıp o alana biraz bakalım:
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/13.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/13.png)
 
 Şimdi bu adresten sonrası boş, fakat bundan öncesi GOT libc adresleri var, yani system içinde bir kaç push olursa bu adreslere yazabilir. Bu yüzden bu adresten çok sonrasını verirsek bomboş bir alan sağlayabiliriz.
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/14.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/14.png)
 
 0x804a3f0 adresini verebiliriz mesela. Bu adresi de aldığımıza göre puts’den sonra ki return adresini ayarlayalım. Bu açığı tekrar tetiklemek için yazılabilir bir adrese ihtiyacımız ve sonra sonra da EBP tekrar ayarlanacağı için EBP’yi iki kere girebiliriz. 
 
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/15.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/15.png)
 
 0x80484f2 adresi bizim için çok iyi olur. Hem EBP’den adresi kullanacağı için verdiğimiz adres writable olacak. Açık tekrar tetiklenmiş olacak. Her şey hazır olduğuna göre exploiti tamamen yazalım:
 
@@ -258,7 +258,7 @@ p.sendline(payload2)
 log.success("Enjoy your shell.")
 p.interactive()
 ```
-![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/16.png)
+![first look](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/16.png)
 
 Çözüm ile ilgili yanlış/eksik/fazla/hata olan şeyleri bana bildiriniz lütfen.
 
