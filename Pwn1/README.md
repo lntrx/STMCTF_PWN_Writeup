@@ -146,8 +146,8 @@ x.x.x.x girmek.
 28 byte şekilli afilli birşey için kısa fakat bu durumu aşmak için lea kullanabiliriz. Return olduktan sonra call eax yapacak eğer ki biz oraya:
 
 ```asm
-lea edx, [eax+40]
-call edx
+	lea	edx, [eax+40]
+	call	edx
 ```
 
 Gibi birşey yaparsak return adresinden sonraya atlarız oraya istediğimiz kadar şey yapabiliriz. 
