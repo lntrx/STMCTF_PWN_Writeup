@@ -10,7 +10,7 @@ Birinci soruda olduğu gibi yine bize dosya verilmiş ve aynı şekilde bu dosya
 
 Resimden çıkarılan sonuç:
 
-    • Overflow yok, çünkü bizim girdiğimiz inputu kırpıyor.
+* Overflow yok, çünkü bizim girdiğimiz inputu kırpıyor.
 
 ```bash
 objdump -S papapawn -M intel
@@ -27,7 +27,7 @@ Demek ki overflow yok o zaman biraz daha debug edelim:
 Çok ilginç bişey oldu. Printf var ama ilk arg olarak girdiğimiz A değerlerini alıyor. Halbuki şöyle bişey olmalıydı:
 
 ```c
-printf(“seciminiz : %s\n”, “AAAA...”)
+printf("seciminiz : %s\n", "AAAA...");
 ```
 
 Konuya hakim arkadaşlar hemen anlamıştır. Burda bir string format var. Bu cebimizde kalsın biz debug etmeye devam edelim. 
