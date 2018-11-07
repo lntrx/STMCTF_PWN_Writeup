@@ -124,7 +124,7 @@ Bu konuda tecrübeli arkadaşlarımız zaten hemen nedenini anlamıştır. Yukar
 section .text
 	global _start
 
-_start
+_start:
 
 	add	esp,36
 ```
