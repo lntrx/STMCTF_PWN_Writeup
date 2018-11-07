@@ -7,35 +7,35 @@ NOT: önce ki jump ve papapawn1 writeup okunması tavsiye olunur çünkü işler
 Rutin ile başlayalım:
 
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/1.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/1.png)
 
 Sunucuda ASLR vardır ve bununla beraber NX var ve Partial Relro var. 
 
 Çalıştırıp biraz bakalım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/2.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/2.png)
 
 Açıkça format string açığı olduğu belirlenmiş zaten. Bizim uğraşıp bulmamıza gerek yok. 
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/3.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/3.png)
 
 Çok uzun bir %x’e rağmen 0x41414141 bulamadık. Muhtemelen bu girdiğimiz input stack’te yok diyoruz. Aynı zamanda çok %x girmemize rağmen sanki çok az adres geldi. Kaç byte okuduğunu görelim hemen:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/4.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/4.png)
 
 0xc8 yani 200 karakter okuyor. 
 
 Girdiğimiz inputa erişemiyoruz ve 200 karakter girebiliyoruz. Bu adresler printf olurken ki vakitte stackte bulunan adresler. O zaman debug edip printf yerine gelip stack’e göz atalım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/5.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/5.png)
 
 Printf yerine geldik. stack ‘i büyütelim biraz. Peda kullanıyorsanız “context stack 20” derseniz ilk 20 içeriği bulabilirsiniz.
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/6.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/6.png)
 
 Dikkatinizi *__libc_start_main+241* olan adrese çekmek isterim. Ilk adress basmayacak çünkü o zaten girdiğimiz input. 0x8048620 adresi ilk index olur. Böyle bakarsanız *__libc_start_main* ise 15. Sırada. Yani %15$x dersek önümüze o adres çıkar:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/7.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/7.png)
 
 ASLR’den dolayı sürekli değişiyor. Bu adres ile Libc base adresini rahatlıkla bulabiliriz. *__libc_start_main+241* adresi elimizde bu adresten *__libc_start_main* offsetini çıkarırsak ve ekstradan 241 çıkarırsak libc base adresi elde etmiş oluruz. Jump writeup yazısında çok daha detaylı anlattığım için burda vakit kaybetmeden hemen Leak yapalım:
 
@@ -83,19 +83,19 @@ log.info("exit@libc: 0x%x" % exit_addr)
 
 Leak hazır çalıştıralım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/9.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/9.png)
 
 Bu şekilde Libc elimizde. Bundan sonra ise işe yara bişey var mı diye yukarda verilen fotoğrafa biraz bakalım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/6.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/6.png)
 
 Burda çok önemli bir detay var 0024(6) ile 0040(10)’a dikkat edin. 0024 ile 0xffffd138’in içine yazabiliriz ve 0040 ile de yazdırdığımız adresin içine yazabilliriz ve hatta güzel birşey daha var:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/10.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/10.png)
 
 38 ile biten adresin içine yazıyorduk ve bu adres ise EBP adresi. 38’in içini overflow edersek iki fonksiyondan sonra maine gelip onu kullanacak. Main’in sonuna bakalım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/11.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/11.png)
 
 Play fonksiyonundan döndükten sonra EBP-4’ün içinde ki değeri ECX’e atıyor ve ESP’yi artık ECX adresninin 4 eksiğini yapıyor. Bu çok güzel bir durum. Programın en güzel yanı ise exit diyene kadar program sürekli açığı tekrar tekrar trigger ediyor. Bizim şöyle bişeye ihtiyacımız var:
 
@@ -103,7 +103,7 @@ EBP-4’ün içindeki adress boş writable adreslerin ortasında olsun o adresin
 
 O zaman kullanacağımız yeri bulalım:
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/12.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/12.png)
 
 0x804a444(bu adresin özel hiçbir yönü yok rastgele seçildi. +1000, 800 veya değişik offset ile seçebilirsiniz) adresini kullanalım. Sırasıyla :
 
@@ -119,7 +119,7 @@ Yani önce 0x804a444 adresini oraya yazacağız ve sonra ise 0x804a444 adresinin
 
 Bunları yazdıktan sonra ise bizim EBP’yi ayarlamamız lazım. EBP ve EBP-4’ü ayarlamamız lazım. Bunu ise read fonksiyonu ile yapalım zaten hali hazırda okuyabiliyoruz. 
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/13.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/13.png)
 
 0x804a060 adresine yazıyoruz read ile. 200 karakter okuyor yani: 
 
@@ -240,6 +240,6 @@ log.success("Enjoy your shell.")
 p.interactive()
 ```
 
-![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Jump/screenshots/14.png)
+![screenshot](https://github.com/lntrx/STMCTF_PWN_Writeup/blob/master/Flu/screenshots/14.png)
 
 NOt: remote yaparsanız baya beklemeniz gerekebilir. 
