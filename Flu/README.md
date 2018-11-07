@@ -125,8 +125,10 @@ Bunları yazdıktan sonra ise bizim EBP’yi ayarlamamız lazım. EBP ve EBP-4�
 
 0x804a060+0xc8 = 804A128 son 4 byte “AAA\n” olur o yüzden önceki adresi kullanırız.
 
+```
 EBP      | → 0x804a124 →  0x804a44c
-EBP - 4 | → 0x804a120 →  0x804a448
+EBP - 4  | → 0x804a120 →  0x804a448
+```
 
 Şeklinde ayarlarsak:
 
