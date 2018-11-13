@@ -9,12 +9,12 @@ Hata/Eksik/Fazla/Yanlış olduğunu düşündüğünüz şeyi lütfen bana ileti
 
 Online ön eleme:
 
-  * Pwn1: https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Pwn1
-  * Papapawn: https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Papapawn
+  * Pwn1: [pwn1 writeup](https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Pwn1)
+  * Papapawn: [papapawn writeup](https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Papapawn)
   
 
 Offline final:
 
-  * Ezz: https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Ezz
-  * Jump: https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Jump
-  * Flu: https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Flu
+  * Ezz: [ezz writeup](https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Ezz)
+  * Jump: [jump writeup](https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Jump)
+  * Flu: [flu writeup](https://github.com/lntrx/STMCTF_PWN_Writeup/tree/master/Flu)
